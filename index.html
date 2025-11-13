@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR" class="scroll-smooth"> <!-- .dark será adicionado/removido via JS -->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Início — Next-Step | Guia de Cursos</title> <!-- Título otimizado -->
+  
+  <!-- Carrega o Tailwind CSS com o plugin 'typography' -->
+  <!-- MUDANÇA: Adicionado '?plugins=typography' para carregar o plugin de tipografia -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  
+  <!-- Estilos customizados e fonte 'Inter' -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      /* O fundo e a cor padrão são definidos no <body> via classes do Tailwind */
+    }
+    
+    /* Classe para o texto em gradiente, que chama a atenção */
+    .hero-gradient-text {
+      /* MUDADO: Gradiente agora é de esmeralda para um esmeralda mais claro */
+      background: linear-gradient(to right, #10b981, #6ee7b7); /* Esmeralda-500 para Esmeralda-300 */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Efeito de "vidro" para o cabeçalho fixo */
+    .glass-header {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      /* O fundo do header é definido via classes do Tailwind (light/dark) */
+    }
+    
+    /* Animação suave para revelar seções ao rolar a página */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <!-- SCRIPT DE TEMA (BLOQUEANTE) 
+       Este script é colocado no <head> para rodar ANTES da página ser renderizada.
+       Isso previne o "flash" do tema incorreto (FOUC).
+  -->
+  <script id="theme-setup">
+    try {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    } catch (e) {
+      console.error("Erro ao configurar o tema inicial:", e);
+    }
+  </script>
+  
+  <!-- Configuração do Tailwind para usar a fonte 'Inter' -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // Habilita o modo escuro baseado em classe
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        },
+      },
+      // MUDANÇA: Removida a chave 'plugins'
+      // O plugin 'typography' foi movido para a URL do script do Tailwind (acima)
+      // para corrigir o erro 'require is not defined'.
+    }
+  </script>
+</head>
+
+<!-- 
+  O body agora tem classes para o modo claro (padrão) e escuro (dark:) 
+-->
+<body class="antialiased bg-white dark:bg-[#0B1120] text-slate-700 dark:text-slate-300 transition-colors duration-300">
+
+  <!-- 
+    CABEÇALHO
+    - Classes de fundo e borda para light/dark
+  -->
+  <header class="glass-header sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800 bg-white/75 dark:bg-[#0B1120]/75">
+    <nav class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+      
+      <!-- Logo -->
+      <a href="#inicio" class="text-2xl font-bold hero-gradient-text transition-transform hover:scale-105">
+        Next-Step
+      </a>
+      
+      <!-- Links da Navegação (Desktop) -->
+      <div class="hidden md:flex space-x-6 items-center">
+        <a href="#inicio" class="text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400 transition-colors duration-300">Início</a>
+        <a href="#sobre" class="text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400 transition-colors duration-300">Sobre</a>
+        <a href="#features" class="text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400 transition-colors duration-300">Recursos</a>
+        <a href="#contato" class="text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400 transition-colors duration-300">Contato</a>
+      </div>
+      
+      <!-- Botão de CTA e Seletor de Tema (Desktop) -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="#teste" class="bg-emerald-500 text-slate-900 font-semibold px-5 py-2.5 rounded-lg hover:bg-emerald-400 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/30">
+          Começar Teste
+        </a>
+        
+        <!-- Botão de Tema (Desktop) -->
+        <button
+          aria-label="Alternar tema"
+          class="theme-toggle-btn p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          <!-- Ícone Sol -->
+          <svg class="theme-toggle-sun-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m4.93 19.07 1.41-1.41"></path><path d="m17.66 6.34 1.41-1.41"></path></svg>
+          <!-- Ícone Lua -->
+          <svg class="theme-toggle-moon-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+      </div>
+      
+      <!-- Seletor de Tema e Menu Hamburguer (Mobile) -->
+      <div class="flex items-center gap-2 md:hidden">
+        <!-- Botão de Tema (Mobile) -->
+        <button
+          aria-label="Alternar tema"
+          class="theme-toggle-btn p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          <!-- Ícone Sol -->
+          <svg class="theme-toggle-sun-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m4.93 19.07 1.41-1.41"></path><path d="m17.66 6.34 1.41-1.41"></path></svg>
+          <!-- Ícone Lua -->
+          <svg class="theme-toggle-moon-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+        </button>
+        
+        <!-- Botão Hamburguer -->
+        <button id="menu-btn" class="text-slate-700 dark:text-slate-200 p-2" aria-label="Abrir menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Menu Mobile (Dropdown) -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+      <a href="#inicio" class="block px-6 py-3 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">Início</a>
+      <a href="#sobre" class="block px-6 py-3 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">Sobre</a>
+      <a href="#features" class="block px-6 py-3 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">Recursos</a>
+      <a href="#contato" class="block px-6 py-3 text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">Contato</a>
+      <a href="#teste" class="block px-6 py-3 text-center bg-emerald-500 text-slate-900 font-semibold m-4 rounded-lg hover:bg-emerald-400 transition-colors">Começar Teste</a>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main>
+
+    <!-- 
+      SEÇÃO HERO
+    -->
+    <section id="inicio" class="relative overflow-hidden min-h-screen flex items-center justify-center pt-20 pb-32">
+      <!-- Fundo com Gradiente Sutil e Animado -->
+      <div class="absolute inset-0 -z-10">
+        <!-- MUDADO: Fundo da "aurora" agora é esmeralda -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-900/50 rounded-full filter blur-3xl opacity-30 animate-pulse-slow"></div>
+        <!-- MUDADO: Fundo da segunda "aurora" agora é esmeralda também -->
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-900/50 rounded-full filter blur-3xl opacity-30 animate-pulse-slow" style="animation-delay: 2s;"></div>
+      </div>
+      
+      <div class="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center reveal">
+        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-6">
+          Descubra o <span class="hero-gradient-text">curso certo</span> para o seu futuro
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10">
+          Oferecemos orientação, testes de perfil e informações claras para ajudar jovens a escolherem seus cursos universitários com confiança.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#sobre" class="bg-emerald-500 text-slate-900 font-semibold px-8 py-4 rounded-lg hover:bg-emerald-400 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/30 text-lg">
+            Saiba Mais
+          </a>
+          <a href="#teste" class="bg-slate-200 text-slate-800 hover:bg-slate-300 dark:bg-slate-800 dark:text-white dark:border dark:border-slate-700 dark:hover:bg-slate-700 font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 text-lg">
+            Fazer o Teste
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+      SEÇÃO DE RECURSOS (NOVA)
+    -->
+    <section id="features" class="py-24 bg-slate-50 dark:bg-slate-900/50">
+      <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+          <h2 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">Como o Next-Step Transforma Decisões</h2>
+          <p class="text-lg text-slate-600 dark:text-slate-400">Uma abordagem interativa, acessível e prática para um planejamento de carreira claro e eficiente.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Card 1: Testes de Perfil -->
+          <div class="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xl shadow-slate-950/50 reveal transition-transform duration-300 hover:scale-[1.03]" style="transition-delay: 0.1s;">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 rounded-lg flex items-center justify-center mb-6">
+              <!-- Ícone: https://lucide.dev/icons/file-check -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m9 15 2 2 4-4"></path></svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mb-3">Testes de Perfil</h3>
+            <p class="text-slate-600 dark:text-slate-400">Perguntas interativas que ajudam você a identificar suas habilidades, preferências e pontos fortes.</p>
+          </div>
+          
+          <!-- Card 2: Informações Detalhadas -->
+          <div class="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xl shadow-slate-950/50 reveal transition-transform duration-300 hover:scale-[1.03]" style="transition-delay: 0.2s;">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 rounded-lg flex items-center justify-center mb-6">
+              <!-- Ícone: https://lucide.dev/icons/database -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mb-3">Informações Detalhadas</h3>
+            <p class="text-slate-600 dark:text-slate-400">Dados sobre cursos, carreiras, mercado de trabalho, salários e tendências futuras.</p>
+          </div>
+          
+          <!-- Card 3: Recomendações Pessoais -->
+          <div class="bg-white dark:bg-slate-800 p-8 rounded-xl border border-slate-200 dark:border-slate-700 shadow-2xl shadow-slate-950/50 reveal transition-transform duration-300 hover:scale-[1.03]" style="transition-delay: 0.3s;">
+            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 rounded-lg flex items-center justify-center mb-6">
+              <!-- Ícone: https://lucide.dev/icons/compass -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+            </div>
+            <h3 class="text-2xl font-semibold text-slate-900 dark:text-white mb-3">Recomendações Pessoais</h3>
+            <p class="text-slate-600 dark:text-slate-400">Auxílio para tomar decisões assertivas e alinhadas com suas aptidões e metas de vida.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+      SEÇÃO "SOBRE" (Conteúdo original)
+      - Classe 'prose' agora usa 'dark:prose-invert'
+    -->
+    <section id="sobre" class="py-24">
+      <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        <!-- Bloco 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24 reveal">
+          <!-- Classe 'prose' agora alterna com o modo escuro -->
+          <div class="prose prose-lg dark:prose-invert text-slate-600 dark:text-slate-300">
+            <p>
+              O <strong>Next-Step</strong> é um software inovador, desenvolvido especialmente para auxiliar jovens em suas escolhas <strong>acadêmicas e profissionais.</strong>
+            </p>
+            <p>
+              Nosso objetivo é proporcionar um apoio completo e personalizado, ajudando cada estudante a descobrir suas <strong>aptidões, interesses e áreas de afinidade profissional</strong>, tornando o processo de decisão sobre cursos universitários e carreiras mais seguro, consciente e alinhado com seus objetivos pessoais.
+            </p>
+          </div>
+          <!-- MUDADO: Placeholder e sombra agora são esmeralda -->
+          <img src="https://placehold.co/600x400/0B1120/10b981?text=Interface+Next-Step+1" 
+               alt="Interface do aplicativo Next-Step" 
+               class="rounded-xl shadow-2xl shadow-emerald-900/30 border-4 border-slate-200 dark:border-slate-800 transition-transform duration-300 hover:scale-105"
+               onerror="this.src='https://placehold.co/600x400/0B1120/10b981?text=Imagem+Indispon%C3%ADvel'">
+        </div>
+        
+        <!-- Bloco 2 (Ordem Invertida no Desktop) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24 reveal">
+          <!-- MUDADO: Placeholder e sombra agora são esmeralda -->
+          <img src="https://placehold.co/600x400/0B1120/10b981?text=Recursos+Next-Step+2" 
+               alt="Recursos do aplicativo Next-Step" 
+               class="rounded-xl shadow-2xl shadow-emerald-900/30 border-4 border-slate-200 dark:border-slate-800 md:order-last transition-transform duration-300 hover:scale-105"
+               onerror="this.src='https://placehold.co/600x400/0B1120/10b981?text=Imagem+Indispon%C3%ADvel'">
+          <div class="prose prose-lg dark:prose-invert text-slate-600 dark:text-slate-300">
+            <p>Com uma abordagem interativa, acessível e prática, o Next-Step oferece ferramentas que tornam o planejamento acadêmico e profissional mais claro e eficiente através de:</p>
+            <ul>
+              <li><strong>Testes de perfil e perguntas interativas</strong>, que ajudam o usuário a identificar habilidades, preferências e pontos fortes.</li>
+              <li><strong>Informações detalhadas sobre cursos</strong>, carreiras e áreas de atuação, incluindo o mercado de trabalho, perspectivas salariais e tendências futuras.</li>
+              <li><strong>Recomendações personalizadas</strong>, que auxiliam os estudantes a tomar decisões mais assertivas e alinhadas com suas aptidões e metas de vida.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bloco 3 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24 reveal">
+          <div class="prose prose-lg dark:prose-invert text-slate-600 dark:text-slate-300">
+            <p>
+              Ao fornecer <strong>orientações confiáveis e dados relevantes</strong>, o Next-Step busca reduzir incertezas, aumentar a confiança dos jovens na hora de escolher sua trajetória acadêmica e profissional, e contribuir para a formação de <strong>profissionais mais realizados, preparados e conscientes do seu futuro.</strong>
+            </p>
+          </div>
+          <!-- MUDADO: Placeholder e sombra agora são esmeralda -->
+          <img src="https://placehold.co/600x400/0B1120/10b981?text=Jovens+Estudando+3" 
+               alt="Jovens usando o aplicativo" 
+               class="rounded-xl shadow-2xl shadow-emerald-900/30 border-4 border-slate-200 dark:border-slate-800 transition-transform duration-300 hover:scale-105"
+               onerror="this.src='https://placehold.co/600x400/0B1120/10b981?text=Imagem+Indispon%C3%ADvel'">
+        </div>
+
+        <!-- Bloco 4 (Ordem Invertida no Desktop) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center reveal">
+          <!-- MUDADO: Placeholder e sombra agora são esmeralda -->
+          <img src="https://placehold.co/600x400/0B1120/10b981?text=Planejamento+de+Carreira+4" 
+               alt="Planejamento de carreira no Next-Step" 
+               class="rounded-xl shadow-2xl shadow-emerald-900/30 border-4 border-slate-200 dark:border-slate-800 md:order-last transition-transform duration-300 hover:scale-105"
+               onerror="this.src='https.placehold.co/600x400/0B1120/10b981?text=Imagem+Indispon%C3%ADvel'">
+          <div class="prose prose-lg dark:prose-invert text-slate-600 dark:text-slate-300">
+            <p>
+              Seja para explorar possibilidades de carreira, descobrir novas paixões ou planejar cada passo da sua jornada acadêmica, o Next-Step é a ferramenta que transforma <strong>decisões complexas em escolhas informadas e seguras.</strong>
+            </p>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+  </main>
+
+  <!-- 
+    RODAPÉ
+  -->
+  <footer id="contato" class="bg-slate-100 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 mt-24">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        
+        <!-- Coluna 1: Resumo -->
+        <div class="md:col-span-2">
+          <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Sobre o Next-Step</h4>
+          <p class="text-slate-600 dark:text-slate-400 max-w-lg mb-4">
+            O Next-Step é um aplicativo desenvolvido para ajudá-lo a explorar suas opções e tomar decisões mais conscientes sobre a carreira que deseja seguir, oferecendo recursos que facilitam o autoconhecimento e o planejamento profissional.
+          </p>
+          <p class="text-sm text-slate-500">
+            <strong>Nosso site não coleta nenhum tipo de dado.</strong>
+          </p>
+        </div>
+        
+        <!-- Coluna 2: Links -->
+        <div>
+          <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Links Úteis</h4>
+          <ul class="space-y-3">
+            <li><a href="#sobre" class="text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors">Sobre o Projeto</a></li>
+            <!-- Corrigi o link para "Nós.html" -->
+            <li><a href="Nós.html" class="text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors">Equipe (Sobre Nós)</a></li>
+            <li><a href="#features" class="text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-4U00 transition-colors">Recursos</a></li>
+            <li><a href="#contato" class="text-slate-600 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors">Contato</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Linha de Copyright -->
+      <div class="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-slate-500 text-sm">
+        <p>© 2025 Next-Step — Guia de Cursos. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 
+    SCRIPTS
+    - Lógica para o menu mobile
+    - Lógica para a animação de scroll
+    - LÓGICA PARA O SELETOR DE TEMA
+  -->
+  <script>
+    // Script do Menu Mobile
+    try {
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      menuBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        menuBtn.setAttribute('aria-expanded', !isHidden);
+      });
+
+      // Opcional: Fechar menu mobile ao clicar em um link
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    } catch (e) {
+      console.error("Erro no script do menu mobile:", e);
+    }
+    
+    // Script de Animação de Scroll (Reveal)
+    try {
+      document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target); // Para animar apenas uma vez
+            }
+          });
+        }, { threshold: 0.1 }); // Dispara quando 10% do elemento está visível
+        
+        document.querySelectorAll('.reveal').forEach(el => {
+          observer.observe(el);
+        });
+      });
+    } catch (e) {
+      console.error("Erro no script de animação de scroll:", e);
+    }
+
+    // Script do Seletor de Tema
+    try {
+      const sunIcons = document.querySelectorAll('.theme-toggle-sun-icon');
+      const moonIcons = document.querySelectorAll('.theme-toggle-moon-icon');
+      const toggleButtons = document.querySelectorAll('.theme-toggle-btn');
+
+      // Função para atualizar a visibilidade dos ícones
+      function updateIcons(isDarkMode) {
+        sunIcons.forEach(icon => {
+          icon.style.display = isDarkMode ? 'block' : 'none';
+        });
+        moonIcons.forEach(icon => {
+          icon.style.display = isDarkMode ? 'none' : 'block';
+        });
+      }
+
+      // Função para alternar o tema
+      function toggleTheme() {
+        const isDarkMode = document.documentElement.classList.toggle('dark');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        updateIcons(isDarkMode);
+      }
+
+      // Adiciona o listener de clique a todos os botões de tema
+      toggleButtons.forEach(btn => {
+        btn.addEventListener('click', toggleTheme);
+      });
+
+      // Define o estado inicial dos ícones no carregamento da página
+      const isInitiallyDark = document.documentElement.classList.contains('dark');
+      updateIcons(isInitiallyDark);
+
+    } catch (e) {
+      console.error("Erro no script do seletor de tema:", e);
+    }
+  </script>
+
+</body>
+</html>
