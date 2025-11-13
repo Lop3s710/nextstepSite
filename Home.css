@@ -1,0 +1,227 @@
+
+:root {
+  --bg: #f1f5f9;
+  --primary: #1ac5a8; 
+  --secondary: #a5b4fc;
+  --text: #0f172a; 
+  --muted: #475569; 
+  --radius: 12px;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif; 
+  color-scheme: light; 
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+}
+
+header {
+
+  background: rgba(255, 255, 255, 0.5);
+  padding: 16px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(8px); 
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+  font-size: 24px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+nav a {
+  margin-left: 20px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s, border-bottom 0.2s;
+  padding-bottom: 4px;
+}
+nav a:hover,
+nav a.active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 10%;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(26, 197, 168, 0.08), transparent); 
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero h2 {
+  font-size: clamp(28px, 5vw, 48px);
+  margin-bottom: 20px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--muted);
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 9999px; 
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.btn-outline {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background-color: transparent;
+}
+.btn-outline:hover {
+  background: rgba(26, 197, 168, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(26, 197, 168, 0.2);
+}
+
+.container {
+  display: flex;
+  align-items: center; 
+  gap: 40px;
+  max-width: 1200px;
+  padding: 60px 40px; 
+  margin: 0 auto;
+}
+
+
+.container:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.texto {
+  flex: 1;
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.imagem-bloco {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px; 
+}
+
+.imagem-bloco img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+}
+
+.texto strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.texto h3 {
+    font-size: 28px;
+    color: var(--text); 
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.texto ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.texto ul li {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231ac5a8' width='16px' height='16px'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z'/%3E%3C/svg%3E") no-repeat left 6px;
+    background-size: 16px;
+    padding-left: 25px;
+    margin-bottom: 10px;
+}
+
+
+footer {
+  text-align: center;
+  padding: 30px 10%;
+  font-size: 14px;
+  color: var(--muted);
+  background-color: #e2e8f0; 
+  border-top: 1px solid #cbd5e1;
+  margin-top: auto;
+}
+
+.Resumo {
+  max-width: 700px;
+  margin: auto;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+footer a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+footer strong {
+    color: var(--primary);
+}
+
+
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column !important; 
+        padding: 40px 20px;
+    }
+    .container:nth-child(even) {
+        flex-direction: column !important; 
+    }
+    .imagem-bloco, .texto {
+        max-width: 100%;
+    }
+    .imagem-bloco img {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 16px 20px;
+    flex-direction: column;
+  }
+  nav {
+    margin-top: 10px;
+  }
+  nav a {
+    margin: 0 10px;
+    font-size: 15px;
+  }
+  .hero {
+    padding: 40px 20px;
+  }
+}
